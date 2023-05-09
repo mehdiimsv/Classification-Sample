@@ -1,0 +1,76 @@
+classes: {'0': 'class_name0', '1': 'class_name1', '2': 'class_name2', '3': 'class_name3'}
+device: 'cuda'
+
+train:
+  epochs: 15
+  do_every: 100 # Iteration
+  batch_size: 8
+  mixed_precision: True # True or False
+  model:
+    name: 'convnext_nano'
+    fine_tuned: True
+
+optimizer:
+  name: 'adabelief' #["adam", "adabelief", "sgd"]
+  lr: &lr 3e-8
+  weight_decay: 1e-4
+  eps: 1e-8
+  weight_decouple: False # True or False
+  momentum: 0.9
+  sam: False
+  accumulate_iter: 1 #disable if set to 1
+  scheduler:
+    T_0: 40
+    T_mult: 1.5
+    eta_max: *lr
+    min_lr: &min_lr 1e-5
+    T_up: 5
+    gamma: 0.6
+    end_epoch:
+      flag: True
+      scheduler_final_epoch: 200
+      fixed_final_lr: *min_lr
+
+data:
+  train:
+    path: './Data/train/'
+    csv_filename: 'train.csv'
+
+    augmentation:
+      color_params:
+        flag: True
+        brightness: 0.4
+        contrast: 0.4
+        hue: 0.4
+        saturation: 0.4
+
+      random_crop_params:
+        flag: True
+        size: 224
+        padding: 4
+
+      normalize:
+        flag: True
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+
+      resize:
+        flag: True
+        size: 256
+
+      horizontal_flip:
+        flag: True
+        p: 0.5
+
+      mix_up:
+        mixup: True
+        mixup_param: 0.2
+        mixup_off_epoch_ratio: 1.0
+
+  validation:
+    csv_filename: 'test.csv'
+    path: './Data/test/'
+    batch_size: 8
+    do_every: 1 # Epoch
+    first_epoch_to_save: 0
+    dataloader_plot: False
