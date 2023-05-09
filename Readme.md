@@ -1,6 +1,6 @@
 # Classification Training Sample Code
 
-##About the Project
+## About the Project
 This project provides a sample implementation of a computer vision classification task using deep learning models. The code is designed to be easily configurable, allowing users to experiment with different training and data pipelines settings.
 The project includes code for data preprocessing, model training and model evaluation. Users can configure different parameters for data pipelines with different model architectures and hyperparameters.
 In the future, the project will be updated with additional configuration options. The goal is to provide a flexible and user-friendly codebase for exploring computer vision classification tasks.
